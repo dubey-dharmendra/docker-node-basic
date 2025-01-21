@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: dockerFile
+    container_name: nodeapp
+    environment:
+      MONGODB_URI: mongodb://mymongo/dockerdb
+      PORT: 8080
+      ACCESS_TOKEN_SECRET: "my-token"
+      TOKEN_EXPIREIN: 1d
+    ports:
+      - '9000:8080'
+    depends_on:
+      - mymongo
+
+  mymongo:
+    image: mongo
+    container_name: mymongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - docker-node-data:/data/db
+
+volumes:
+  docker-node-data:
+    driver: local
