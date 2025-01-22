@@ -16,8 +16,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 app.use("/auth", authRouter);
+app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/item", itemRouter);
+app.use("/*", (req, res, next) => {
+  res.send("Hi your are on the wrong track")
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
